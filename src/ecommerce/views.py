@@ -7,8 +7,11 @@ from .forms import ContactForm, LoginForm
 
 def home_page(request):
     context = {
-        "title": "I love you"
+        "title": "I love you",
+        "content": "Ohhh"
     }
+    if request.user.is_authenticated():
+        context["premium_content"] = "Yeahhhh"
     return render(request, "home_page.html", context)
 
 
