@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from .forms import ContactForm, LoginForm
+from .forms import ContactForm, LoginForm, RegisterForm
 
 
 def home_page(request):
@@ -60,7 +60,7 @@ def login_page(request):
             login(request, user)
             # Redirect to a success page.
             # context['form'] = LoginForm()
-            return redirect("/login")
+            return redirect("/")
         else:
             # Return an 'invalid login' error message.
             print("Error")
@@ -69,7 +69,13 @@ def login_page(request):
 
 
 def register_page(request):
-    return render(request, "auth/register.html", {})
+    form = RegisterForm(request.POST or None)
+    context = {
+        "form": form
+    }
+    if form.is_valid():
+        print(form.cleaned_data)
+    return render(request, "auth/register.html", context)
 
 
 def home_page_old(request):
